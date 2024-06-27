@@ -1,0 +1,89 @@
+// src/SignInLoginForm.js
+import React, { useState } from 'react';
+
+const SignInLoginForm = () => {
+    const [formData, setFormData] = useState({
+        username: '',
+        email: '',
+        password: '',
+    });
+
+    const [submitted, setSubmitted] = useState(false);
+    const [isSignUp, setIsSignUp] = useState(true);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setSubmitted(true);
+    };
+
+    const toggleForm = () => {
+        setIsSignUp(!isSignUp);
+    };
+
+    return (
+        <div>
+            {submitted ? (
+                <div>
+                    <h2>{isSignUp ? 'Account Created' : 'Logged In'} Successfully</h2>
+                    <p><strong>Username:</strong> {formData.username}</p>
+                    {isSignUp && <p><strong>Email:</strong> {formData.email}</p>}
+                    <p><strong>Password:</strong> {formData.password}</p>
+                    <button onClick={() => setSubmitted(false)}>Back to Form</button>
+                </div>
+            ) : (
+                <div>
+                    <button onClick={toggleForm}>
+                        {isSignUp ? 'Switch to Login' : 'Switch to Sign Up'}
+                    </button>
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            <label htmlFor="username">Username:</label>
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                value={formData.username}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        {isSignUp && (
+                            <div>
+                                <label htmlFor="email">Email:</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                        )}
+                        <div>
+                            <label htmlFor="password">Password:</label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <button type="submit">
+                            {isSignUp ? 'Sign Up' : 'Login'}
+                        </button>
+                    </form>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default SignInLoginForm;
